@@ -1,8 +1,6 @@
 /* ==========================================================================
-   Miracle IT Career Academy | Full Stack & AI Masterclass
+   Miracle IT Career Academy | Full Stack Web Development Course
    Plain JavaScript, zero dependencies.
-
-   Lead endpoint & Meta Pixel configured at the top:
    ========================================================================== */
 (() => {
   'use strict';
@@ -13,8 +11,8 @@
 
     phone: '+917880003127',
     whatsapp: '917880003127',
-    whatsappText: 'Hi Miracle IT, I want to book a free counselling & masterclass seat for the Full Stack & AI course.',
-    course: 'Full Stack Web Development & AI Masterclass'
+    whatsappText: 'Hi Miracle IT, I want to book a free counselling & demo class for the Full Stack Web Development course.',
+    course: 'Full Stack Web Development (MERN + PostgreSQL + AI) Course'
   };
 
   const $ = (s, r = document) => r.querySelector(s);
@@ -83,11 +81,88 @@
     track('Contact', { content_name: a.hasAttribute('data-wa') ? 'WhatsApp' : 'Call', content_category: CONFIG.course });
   });
 
+  /* ---------- Mobile Drawer Navigation ---------- */
+  const menuToggle = $('#menuToggle');
+  const mobileDrawer = $('#mobileDrawer');
+  const drawerClose = $('#drawerClose');
+  const drawerBackdrop = $('#drawerBackdrop');
+
+  function openDrawer() {
+    if (!mobileDrawer) return;
+    mobileDrawer.classList.add('is-open');
+    mobileDrawer.setAttribute('aria-hidden', 'false');
+    if (menuToggle) {
+      menuToggle.classList.add('is-active');
+      menuToggle.setAttribute('aria-expanded', 'true');
+    }
+    document.body.classList.add('drawer-open');
+  }
+
+  function closeDrawer() {
+    if (!mobileDrawer) return;
+    mobileDrawer.classList.remove('is-open');
+    mobileDrawer.setAttribute('aria-hidden', 'true');
+    if (menuToggle) {
+      menuToggle.classList.remove('is-active');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    }
+    document.body.classList.remove('drawer-open');
+  }
+
+  if (menuToggle) {
+    menuToggle.addEventListener('click', () => {
+      const isOpen = mobileDrawer && mobileDrawer.classList.contains('is-open');
+      if (isOpen) closeDrawer();
+      else openDrawer();
+    });
+  }
+  if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
+  if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeDrawer);
+
+  $$('.drawer-link').forEach(link => {
+    link.addEventListener('click', () => {
+      closeDrawer();
+    });
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileDrawer && mobileDrawer.classList.contains('is-open')) {
+      closeDrawer();
+    }
+  });
+
+  /* ---------- Certificate & Experience Letter Tabs ---------- */
+  const tabCert = $('#tabCert');
+  const tabLetter = $('#tabLetter');
+  const viewCert = $('#viewCertificate');
+  const viewLetter = $('#viewExperienceLetter');
+
+  if (tabCert && tabLetter && viewCert && viewLetter) {
+    tabCert.addEventListener('click', () => {
+      tabCert.classList.add('active');
+      tabCert.setAttribute('aria-selected', 'true');
+      tabLetter.classList.remove('active');
+      tabLetter.setAttribute('aria-selected', 'false');
+      viewCert.hidden = false;
+      viewLetter.hidden = true;
+    });
+
+    tabLetter.addEventListener('click', () => {
+      tabLetter.classList.add('active');
+      tabLetter.setAttribute('aria-selected', 'true');
+      tabCert.classList.remove('active');
+      tabCert.setAttribute('aria-selected', 'false');
+      viewLetter.hidden = false;
+      viewCert.hidden = true;
+    });
+  }
+
   /* ---------- "Book free seat" smooth scroll to form ---------- */
   const card = $('#lead-form');
   const nameInput = $('#f-name');
   $$('[data-book]').forEach(b => b.addEventListener('click', (e) => {
     e.preventDefault();
+    closeDrawer();
     if (card) {
       card.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
       setTimeout(() => { if (nameInput) nameInput.focus({ preventScroll: true }); }, reduceMotion ? 0 : 450);
@@ -128,7 +203,7 @@
     name:   (v) => (v.trim().length >= 2 && /[A-Za-z\u0900-\u097F]/.test(v)) ? '' : 'Please enter your full name.',
     phone:  (v) => /^[6-9]\d{9}$/.test(normalisePhone(v)) ? '' : 'Please enter a valid 10-digit mobile number.',
     email:  (v) => (!v.trim() || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())) ? '' : 'Please enter a valid email address.',
-    status: (v) => v ? '' : 'Please choose your current status.'
+    status: (v) => v ? '' : 'Please choose your current background.'
   };
 
   const fieldOf = (el) => el.closest('.form-field') || el.parentElement;
@@ -181,7 +256,6 @@
           body: JSON.stringify(payload)
         });
       } else {
-        // Kept in localStorage for offline testing before deployment
         try {
           const list = JSON.parse(localStorage.getItem('miracle_test_leads') || '[]');
           list.push(payload);
