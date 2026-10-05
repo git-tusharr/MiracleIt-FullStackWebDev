@@ -3730,3 +3730,48 @@ h4 { font-size: 1.05rem; font-weight: 600; }
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
+/* Eligibility Trust Banner */
+.eligibility-banner {
+  margin-top: 24px;
+  background: #FFFFFF;
+  border: 1px dashed var(--brand-blue-border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 12px;
+  font-size: 0.825rem;
+  color: var(--ink-body);
+  box-shadow: var(--shadow-xs);
+  box-sizing: border-box;
+}
+.elig-tag {
+  font-weight: 800;
+  color: var(--brand-blue);
+  letter-spacing: 0.05em;
+  font-size: 0.725rem;
+  background: var(--brand-blue-light);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.elig-item {
+  font-weight: 600;
+  color: var(--ink-head);
+}
+.elig-sep {
+  color: var(--ink-faint);
+}
+@media (max-width: 480px) {
+  .eligibility-banner {
+    flex-direction: column;
+    text-align: center;
+    gap: 6px;
+    padding: 12px 10px;
+  }
+  .elig-sep {
+    display: none;
+  }
+}
