@@ -2356,6 +2356,12 @@ h4 { font-size: 1.05rem; font-weight: 600; }
   :root {
     --gut: 16px;
   }
+  .section {
+    padding: 38px 0;
+  }
+  .section-head {
+    margin: 0 auto 24px;
+  }
   .top-call-num { display: none; }
   .btn-header-cta { display: none; }
   .btn-call-outline { padding: 8px; }
