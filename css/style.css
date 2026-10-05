@@ -301,6 +301,7 @@ h4 { font-size: 1.05rem; font-weight: 600; }
   display: flex;
   visibility: hidden;
   pointer-events: none;
+  overflow: hidden;
   transition: visibility .3s ease;
 }
 .mobile-drawer.is-open {
@@ -573,15 +574,24 @@ h4 { font-size: 1.05rem; font-weight: 600; }
 
 .hero-layout {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 32px;
   position: relative;
   z-index: 1;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .hero-main {
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.hero-card-col {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .hero-badge-row {
@@ -984,8 +994,10 @@ h4 { font-size: 1.05rem; font-weight: 600; }
 /* ---------- SECTION: OVERVIEW / SHIFT ---------- */
 .shift-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 24px;
+  min-width: 0;
+  max-width: 100%;
 }
 .shift-intro-box {
   background: #FFFFFF;
@@ -993,6 +1005,9 @@ h4 { font-size: 1.05rem; font-weight: 600; }
   border-radius: 18px;
   padding: 28px 20px;
   box-shadow: var(--shadow-sm);
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .shift-intro-box h3 {
   font-size: 1.35rem;
@@ -1670,6 +1685,18 @@ h4 { font-size: 1.05rem; font-weight: 600; }
   width: 42px;
   height: 42px;
   font-size: 0.42rem;
+}
+.lh-stamp-mini {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.lh-stamp-mini .cert-stamp-circle.mini {
+  position: relative;
+  top: 0;
+  right: 0;
+  transform: rotate(-10deg);
 }
 
 .cert-signer-name {
@@ -2356,6 +2383,25 @@ h4 { font-size: 1.05rem; font-weight: 600; }
     display: flex;
   }
 
+  /* Grid containment for mobile viewports */
+  .hero-layout,
+  .shift-grid,
+  .curriculum-layout,
+  .comparison-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .hero-main,
+  .hero-card-col,
+  .shift-intro-box,
+  .registration-card {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
   /* Universal Mobile Horizontal Sliders */
   .mobile-slider {
     display: flex !important;
@@ -2581,34 +2627,50 @@ h4 { font-size: 1.05rem; font-weight: 600; }
 @media (max-width: 360px) {
   :root {
     --gut: 10px;
-    --dock-h: 64px;
+    --dock-h: 60px;
   }
+
+  html, body {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    position: relative !important;
+    width: 100% !important;
+  }
+
   .wrap {
-    padding-inline: 10px;
+    padding-inline: 10px !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
   }
 
   /* Top Notice */
   .top-notice {
-    padding: 5px 4px;
+    padding: 6px 6px;
   }
   .top-notice-in {
     gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .notice-badge {
-    font-size: 0.64rem;
-    padding: 1px 5px;
+    font-size: 0.62rem;
+    padding: 1px 6px;
   }
   .notice-text {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     line-height: 1.35;
+    text-align: center;
+    word-break: break-word;
   }
   .notice-cta {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
+    font-weight: 700;
   }
 
   /* Header */
   .header-in {
-    min-height: 52px;
+    min-height: 50px;
     gap: 6px;
   }
   .header-logo {
@@ -2640,321 +2702,444 @@ h4 { font-size: 1.05rem; font-weight: 600; }
     width: 17px;
   }
 
-  /* Hero Section */
+  /* Hero Section & Grid Containment */
   .hero-scaler {
-    padding: 24px 0 36px;
+    padding: 20px 0 32px;
+    overflow: hidden;
+  }
+  .hero-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 20px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .hero-main {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
   }
   .hero-badge-row {
     gap: 5px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   .scaler-pill {
-    font-size: 0.68rem;
-    padding: 3px 7px;
+    font-size: 0.64rem;
+    padding: 3px 6px;
     gap: 4px;
+    max-width: 100%;
   }
   .scaler-pill svg {
     width: 12px;
     height: 12px;
   }
   .scaler-masterclass-tag {
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     padding: 2px 6px;
   }
   .hero-title {
-    font-size: 1.55rem;
-    line-height: 1.18;
+    font-size: 1.45rem;
+    line-height: 1.2;
     margin-bottom: 10px;
     word-break: break-word;
+    overflow-wrap: break-word;
   }
   .highlight-badge {
-    padding: 1px 8px;
-    font-size: 0.9em;
+    padding: 1px 6px;
+    font-size: 0.95em;
+    border-radius: 6px;
+    display: inline;
   }
   .hero-subtitle {
-    font-size: 0.85rem;
-    line-height: 1.48;
-    margin-bottom: 16px;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    margin-bottom: 12px;
+    word-break: break-word;
   }
   .hero-meta-bar {
-    gap: 6px;
-    font-size: 0.74rem;
-    margin-bottom: 16px;
+    gap: 5px;
+    font-size: 0.72rem;
+    margin-bottom: 14px;
   }
   .free-tag {
-    font-size: 0.62rem;
+    font-size: 0.6rem;
     padding: 2px 5px;
   }
   .mentor-avatar-mini {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
   }
   .mentor-inline {
-    font-size: 0.74rem;
+    font-size: 0.72rem;
     gap: 5px;
   }
   .rating-stat {
-    font-size: 0.74rem;
+    font-size: 0.72rem;
   }
   .tech-label {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
+    width: 100%;
+    margin-bottom: 2px;
   }
   .tech-strip {
-    gap: 5px;
+    gap: 4px;
+    width: 100%;
   }
   .tech-chip {
-    font-size: 0.7rem;
-    padding: 3px 7px;
+    font-size: 0.66rem;
+    padding: 3px 6px;
     gap: 4px;
   }
   .tech-chip img, .tech-chip svg {
-    width: 13px;
-    height: 13px;
+    width: 12px;
+    height: 12px;
   }
 
   /* Lead Form Card */
+  .hero-card-col {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
   .registration-card {
     border-radius: 12px;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
   }
   .reg-card-header {
-    padding: 14px 10px 10px;
+    padding: 12px 10px 8px;
   }
   .reg-urgency-pill {
-    font-size: 0.68rem;
-    padding: 3px 7px;
-    margin-bottom: 6px;
+    font-size: 0.64rem;
+    padding: 2px 6px;
+    margin-bottom: 5px;
   }
   .reg-card-title {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     line-height: 1.25;
-  }
-  .reg-card-sub {
-    font-size: 0.78rem;
-    line-height: 1.4;
-  }
-  .reg-card-body {
-    padding: 14px 10px;
-  }
-  .form-field {
-    margin-bottom: 12px;
-  }
-  .form-label {
-    font-size: 0.8rem;
+    word-break: break-word;
     margin-bottom: 4px;
   }
+  .reg-card-sub {
+    font-size: 0.75rem;
+    line-height: 1.35;
+    word-break: break-word;
+  }
+  .reg-card-body {
+    padding: 12px 10px;
+  }
+  .form-field {
+    margin-bottom: 10px;
+  }
+  .form-label {
+    font-size: 0.76rem;
+    margin-bottom: 3px;
+  }
   .input-box, .select-box {
-    min-height: 42px;
-    padding: 6px 10px;
+    min-height: 40px;
+    padding: 6px 8px;
     font-size: 16px;
     border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .phone-group {
+    display: flex;
+    width: 100%;
   }
   .phone-prefix {
     padding: 0 8px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .phone-group .input-box {
+    flex: 1;
+    min-width: 0;
   }
   #submitBtn {
-    min-height: 44px;
-    font-size: 0.825rem;
-    padding: 0 8px;
+    min-height: 42px;
+    font-size: 0.78rem;
+    padding: 0 6px;
     border-radius: 6px;
+    width: 100%;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.25;
   }
   .reg-fineprint {
-    font-size: 0.68rem;
-    margin-top: 8px;
+    font-size: 0.65rem;
+    line-height: 1.35;
+    margin-top: 6px;
+    word-break: break-word;
   }
   .reg-direct-actions {
-    font-size: 0.72rem;
-    gap: 8px;
-    padding-top: 10px;
-    margin-top: 12px;
+    font-size: 0.68rem;
+    gap: 6px;
+    padding-top: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
-  /* Horizontal Sliders on 320px-360px */
+  /* Section 2 Overview & Shift */
+  .shift-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+  .shift-intro-box {
+    padding: 14px 10px;
+    border-radius: 12px;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+  }
+  .shift-intro-box h3 {
+    font-size: 1.15rem;
+    line-height: 1.25;
+    margin-bottom: 8px;
+    word-break: break-word;
+  }
+  .shift-intro-box p {
+    font-size: 0.78rem;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+
+  /* Horizontal Sliders on 320px */
   .slider-hint {
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     margin-bottom: 10px;
     gap: 4px;
   }
   .mobile-slider {
-    gap: 10px;
+    gap: 8px;
     padding-bottom: 10px;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
   }
   .shift-cards-row.mobile-slider .shift-card {
     flex: 0 0 88%;
-    max-width: 265px;
-    padding: 14px 10px;
+    max-width: 260px;
+    padding: 12px 10px;
+    box-sizing: border-box;
   }
   .shift-card-num {
-    font-size: 1.05rem;
+    font-size: 1rem;
     margin-bottom: 4px;
   }
   .shift-card h4 {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
   }
   .shift-card p {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
+    line-height: 1.35;
   }
 
   .learn-grid.mobile-slider .curriculum-card {
     flex: 0 0 90%;
-    max-width: 275px;
-    padding: 14px 10px;
+    max-width: 270px;
+    padding: 12px 10px;
+    box-sizing: border-box;
   }
   .module-number {
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     padding: 2px 6px;
   }
   .curriculum-card h3 {
-    font-size: 1.05rem;
+    font-size: 1rem;
   }
   .curriculum-card > p {
-    font-size: 0.8rem;
-    margin-bottom: 12px;
+    font-size: 0.78rem;
+    margin-bottom: 10px;
   }
   .curriculum-list {
-    gap: 7px;
+    gap: 6px;
   }
   .curriculum-list li {
-    font-size: 0.78rem;
-    gap: 6px;
+    font-size: 0.76rem;
+    gap: 5px;
   }
 
   .projects-chips-grid.mobile-slider .p-card-item {
     flex: 0 0 88%;
-    max-width: 265px;
+    max-width: 260px;
     padding: 10px;
-    gap: 10px;
+    gap: 8px;
+    box-sizing: border-box;
   }
   .p-num {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
   .p-card-item strong {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
   }
   .p-card-item p {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
   }
 
   .class-steps.mobile-slider .class-step-card {
     flex: 0 0 88%;
-    max-width: 265px;
-    padding: 14px 10px;
+    max-width: 260px;
+    padding: 12px 10px;
+    box-sizing: border-box;
   }
   .step-badge {
-    width: 34px;
-    height: 34px;
-    font-size: 0.95rem;
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
   }
   .class-step-card h4 {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
   }
   .class-step-card p {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
   }
 
   .who-grid.mobile-slider .who-card {
     flex: 0 0 88%;
-    max-width: 265px;
-    padding: 14px 10px;
+    max-width: 260px;
+    padding: 12px 10px;
+    box-sizing: border-box;
   }
   .who-icon {
-    width: 36px;
-    height: 36px;
-    margin-bottom: 10px;
+    width: 34px;
+    height: 34px;
+    margin-bottom: 8px;
   }
   .who-icon svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
   .who-card h4 {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
   }
   .who-card p {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
   }
 
   .reviews-grid.mobile-slider .review-card {
     flex: 0 0 90%;
-    max-width: 275px;
-    padding: 14px 10px;
+    max-width: 270px;
+    padding: 12px 10px;
+    box-sizing: border-box;
   }
   .review-quote {
-    font-size: 0.825rem;
-    margin-bottom: 12px;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
   }
   .author-name {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
   }
   .author-sub {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
   }
 
   .placements-slider {
-    grid-auto-columns: 122px !important;
+    grid-auto-columns: 120px !important;
     gap: 8px !important;
   }
   .placements-slider .placement-card {
-    width: 122px;
+    width: 120px;
     border-radius: 8px;
   }
   .placement-company {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
   }
   .placement-name {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
   }
 
   .event-details-grid.mobile-slider .event-detail-item {
     flex: 0 0 86%;
-    max-width: 260px;
+    max-width: 255px;
     padding: 8px 10px;
     gap: 8px;
+    box-sizing: border-box;
   }
   .detail-icon {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
   }
   .detail-icon svg {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
   }
   .detail-label {
-    font-size: 0.68rem;
+    font-size: 0.66rem;
   }
   .detail-value {
-    font-size: 0.825rem;
+    font-size: 0.8rem;
   }
 
-  /* 30-90-30 Model Bar */
+  /* 30-90-30 Model Stacked Breakdown on 320px */
+  .class-bar-container {
+    margin: 18px 0 22px;
+  }
   .class-bar {
-    min-height: 44px;
-    border-radius: 8px;
+    flex-direction: column !important;
+    gap: 6px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
   }
   .class-seg-a {
-    padding: 6px 2px;
-    flex: 25;
+    background: #0052FF !important;
+    border-radius: 8px !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    padding: 9px 12px !important;
+    gap: 10px !important;
+    text-align: left !important;
+    flex: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
   .class-seg-b {
-    padding: 6px 2px;
-    flex: 95;
+    background: #FF5400 !important;
+    border-radius: 8px !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    padding: 9px 12px !important;
+    gap: 10px !important;
+    text-align: left !important;
+    flex: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
-  .seg-time {
-    font-size: 0.85rem;
+  .class-seg-a .seg-time,
+  .class-seg-b .seg-time {
+    font-size: 1rem !important;
+    font-weight: 800 !important;
+    min-width: 38px !important;
   }
-  .seg-label {
-    font-size: 0.62rem;
-    white-space: nowrap;
+  .class-seg-a .seg-label,
+  .class-seg-b .seg-label {
+    font-size: 0.76rem !important;
+    white-space: normal !important;
+    line-height: 1.25 !important;
   }
-  .seg-badge {
-    font-size: 0.55rem;
-    padding: 1px 4px;
-    margin-top: 2px;
+  .class-seg-b .seg-badge {
+    margin-left: auto !important;
+    font-size: 0.6rem !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    background: rgba(0, 0, 0, 0.25) !important;
+    white-space: nowrap !important;
   }
 
   /* Certificate on 320px */
   .cert-tab-controls {
     gap: 6px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
   .cert-tab-btn {
     font-size: 0.72rem;
@@ -2962,20 +3147,27 @@ h4 { font-size: 1.05rem; font-weight: 600; }
     gap: 4px;
   }
   .cert-tab-btn svg {
-    width: 14px;
-    height: 14px;
+    width: 13px;
+    height: 13px;
   }
-
   .cert-preview-card {
     border-radius: 8px;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
   }
   .cert-frame-outer {
-    padding: 3px;
-    border: 2px solid #0F172A;
+    padding: 3px !important;
+    border: 2px solid #0F172A !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
   }
   .cert-frame-inner {
-    padding: 10px 6px;
-    border: 1px solid #D4AF37;
+    padding: 10px 6px !important;
+    border: 1px solid #D4AF37 !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
   }
   .cert-corner {
     width: 10px;
@@ -2986,7 +3178,6 @@ h4 { font-size: 1.05rem; font-weight: 600; }
   .corner-tr { top: 3px; right: 3px; }
   .corner-bl { bottom: 3px; left: 3px; }
   .corner-br { bottom: 3px; right: 3px; }
-
   .cert-security-bar {
     font-size: 0.5rem;
     padding-bottom: 4px;
@@ -2994,131 +3185,160 @@ h4 { font-size: 1.05rem; font-weight: 600; }
     gap: 2px;
   }
   .cert-crest-img {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
   }
   .cert-inst-title {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     letter-spacing: 0.02em;
   }
   .cert-inst-sub {
-    font-size: 0.5rem;
+    font-size: 0.48rem;
     letter-spacing: 0.02em;
   }
   .cert-accreditation-line {
-    font-size: 0.48rem;
+    font-size: 0.46rem;
   }
   .cert-divider-gold {
-    margin: 6px auto;
+    margin: 5px auto;
     width: 85%;
   }
   .cert-type-banner {
-    font-size: 0.62rem;
-    letter-spacing: 0.04em;
-    margin-bottom: 2px;
-  }
-  .cert-proclamation {
-    font-size: 0.54rem;
+    font-size: 0.6rem;
     letter-spacing: 0.03em;
     margin-bottom: 2px;
   }
+  .cert-proclamation {
+    font-size: 0.52rem;
+    margin-bottom: 2px;
+  }
   .cert-recipient-name {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     padding: 0 4px 1px;
     margin: 2px 0 4px;
     border-bottom-width: 1px;
   }
   .cert-statement {
-    font-size: 0.65rem;
+    font-size: 0.64rem;
     line-height: 1.3;
     margin-bottom: 4px;
   }
   .cert-course-title {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     line-height: 1.25;
-    margin-bottom: 6px;
-    letter-spacing: 0;
+    margin-bottom: 5px;
   }
   .cert-skills-badge-row {
     gap: 2px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .cert-skill-pill {
-    font-size: 0.52rem;
+    font-size: 0.5rem;
     padding: 1px 4px;
   }
-
   .cert-official-footer {
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    padding-top: 6px;
-    margin-top: 6px;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+    padding-top: 6px !important;
+    margin-top: 6px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
   .cert-gold-seal-col {
-    margin: 1px 0 4px;
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    justify-content: center !important;
+    margin: 1px 0 6px !important;
   }
   .gold-seal-3d {
-    width: 46px;
-    height: 46px;
+    width: 44px;
+    height: 44px;
     box-shadow: 0 2px 8px rgba(202, 138, 4, 0.4);
   }
   .seal-inner-circle {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
   }
-  .seal-text-top { font-size: 0.32rem; }
-  .seal-text-bot { font-size: 0.3rem; }
+  .seal-text-top { font-size: 0.3rem; }
+  .seal-text-bot { font-size: 0.28rem; }
   .seal-ribbon {
-    width: 7px;
-    height: 12px;
-    bottom: -7px;
+    width: 6px;
+    height: 11px;
+    bottom: -6px;
   }
   .ribbon-blue { left: 13px; }
   .ribbon-orange { right: 13px; }
-
+  .cert-signature-col.left {
+    text-align: left !important;
+    min-width: 0 !important;
+  }
+  .cert-signature-col.right {
+    text-align: right !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+  }
+  .cert-sig-wrapper {
+    display: inline-block;
+    position: relative;
+  }
   .cert-sig-svg {
-    width: 70px;
-    height: 22px;
+    width: 65px;
+    height: 20px;
   }
   .cert-stamp-circle {
-    width: 32px;
-    height: 32px;
-    font-size: 0.32rem;
-    top: -4px;
-    right: -4px;
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 0.3rem !important;
+    top: -4px !important;
+    right: -2px !important;
   }
   .cert-stamp-circle .stamp-verified {
-    font-size: 0.38rem;
+    font-size: 0.36rem !important;
   }
   .cert-signer-name {
-    font-size: 0.58rem;
+    font-size: 0.56rem;
   }
   .cert-signer-title {
-    font-size: 0.48rem;
+    font-size: 0.46rem;
   }
-
   .cert-qr-svg {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
   }
   .qr-verify-text {
-    font-size: 0.48rem;
+    font-size: 0.46rem;
   }
   .qr-verify-text strong {
-    font-size: 0.52rem;
+    font-size: 0.5rem;
   }
   .cert-meta-bottom {
-    font-size: 0.46rem;
+    font-size: 0.44rem;
     padding-top: 4px;
-    margin-top: 6px;
+    margin-top: 5px;
   }
 
   /* Experience Letter */
   .cert-preview-card.experience-letter .letterhead {
-    padding: 8px 6px;
+    padding: 8px 6px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
   .letterhead-header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 6px !important;
     padding-bottom: 6px;
     margin-bottom: 8px;
+  }
+  .lh-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
   }
   .lh-brand img {
     height: 24px;
@@ -3127,50 +3347,66 @@ h4 { font-size: 1.05rem; font-weight: 600; }
     font-size: 0.72rem;
   }
   .lh-inst-meta {
-    font-size: 0.52rem;
+    font-size: 0.5rem;
+    line-height: 1.3;
   }
   .lh-doc-badge {
-    font-size: 0.58rem;
-    padding: 1px 4px;
+    font-size: 0.56rem;
+    padding: 2px 5px;
+    align-self: flex-start !important;
   }
   .letter-ref-row {
-    font-size: 0.56rem;
+    font-size: 0.54rem;
     margin-bottom: 6px;
   }
   .letter-title {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     margin-bottom: 4px;
   }
   .letter-body p {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     line-height: 1.35;
   }
   .letter-projects-table .lp-row {
     padding: 4px 6px;
   }
   .letter-projects-table .lp-name {
-    font-size: 0.68rem;
+    font-size: 0.66rem;
   }
   .letter-projects-table .lp-tech {
-    font-size: 0.6rem;
-  }
-  .letter-projects-table .lp-status {
     font-size: 0.58rem;
   }
+  .letter-projects-table .lp-status {
+    font-size: 0.56rem;
+  }
   .letter-footer-sigs {
-    margin-top: 8px;
-    padding-top: 6px;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-top: 8px !important;
+    padding-top: 6px !important;
+    gap: 6px !important;
   }
   .lh-sig-line {
-    font-size: 0.62rem;
+    font-size: 0.6rem;
   }
   .lh-sig-sub {
-    font-size: 0.52rem;
+    font-size: 0.5rem;
+  }
+  .lh-stamp-mini {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
   .lh-stamp-mini .cert-stamp-circle.mini {
-    width: 28px;
-    height: 28px;
-    font-size: 0.3rem;
+    position: relative !important;
+    top: 0 !important;
+    right: 0 !important;
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 0.3rem !important;
+    transform: rotate(-8deg) !important;
   }
 
   /* Sticky Bottom Dock */
@@ -3179,188 +3415,209 @@ h4 { font-size: 1.05rem; font-weight: 600; }
   }
   .dock-actions {
     gap: 6px;
+    max-width: 320px;
+    margin: 0 auto;
   }
   .dock-call-btn, .dock-wa-btn {
     width: 38px;
     height: 38px;
     border-radius: 6px;
+    flex-shrink: 0;
   }
   .dock-call-btn svg, .dock-wa-btn svg {
-    width: 18px;
-    height: 18px;
+    width: 17px;
+    height: 17px;
   }
   .dock-actions .btn {
     min-height: 38px;
     font-size: 0.78rem;
-    padding: 0 8px;
+    padding: 0 6px;
     border-radius: 6px;
+    white-space: nowrap;
   }
 
   /* Mobile Drawer */
+  .mobile-drawer {
+    overflow: hidden !important;
+  }
   .drawer-panel {
-    width: 92%;
+    width: 90%;
     max-width: 280px;
+    box-sizing: border-box;
     padding: 12px 10px calc(16px + env(safe-area-inset-bottom, 10px));
   }
   .drawer-header {
     padding-bottom: 10px;
   }
   .drawer-brand img {
-    height: 26px;
+    height: 24px;
   }
   .drawer-track-badge {
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     padding: 2px 5px;
   }
   .drawer-close-btn {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
   }
   .drawer-batch-alert {
-    margin: 8px 0 12px;
+    margin: 8px 0 10px;
     padding: 6px 8px;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
   }
   .drawer-link {
     padding: 8px;
-    font-size: 0.825rem;
-    min-height: 40px;
+    font-size: 0.8rem;
+    min-height: 38px;
   }
   .drawer-link-icon {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
   }
   .drawer-link-icon svg {
-    width: 15px;
-    height: 15px;
-  }
-  .drawer-arrow {
     width: 14px;
     height: 14px;
   }
+  .drawer-arrow {
+    width: 13px;
+    height: 13px;
+  }
   .drawer-footer-actions {
-    margin-top: 14px;
-    padding-top: 12px;
-    gap: 8px;
+    margin-top: 12px;
+    padding-top: 10px;
+    gap: 6px;
   }
   .drawer-book-btn {
-    min-height: 40px;
-    font-size: 0.8rem;
+    min-height: 38px;
+    font-size: 0.78rem;
   }
   .drawer-contact-item {
-    min-height: 36px;
-    font-size: 0.75rem;
+    min-height: 34px;
+    font-size: 0.72rem;
   }
   .drawer-campus-info {
-    font-size: 0.68rem;
+    font-size: 0.66rem;
   }
 
   /* Comparison Table */
   .table-mobile-hint {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
+  }
+  .comparison-box {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
   }
   .comparison-table {
-    min-width: 480px;
+    min-width: 460px;
   }
   .comparison-table th, .comparison-table td {
-    padding: 8px 10px;
-    font-size: 0.78rem;
+    padding: 7px 8px;
+    font-size: 0.74rem;
   }
 
   /* Mentor Spotlight */
   .mentor-spotlight-box {
-    padding: 18px 12px;
-    gap: 16px;
+    padding: 16px 10px;
+    gap: 14px;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
   }
   .mentor-portrait {
-    width: 160px;
-    height: 160px;
-    border-radius: 14px;
+    width: 140px;
+    height: 140px;
+    border-radius: 12px;
   }
   .mentor-bio-col h3 {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
   }
   .mentor-role {
-    font-size: 0.8rem;
-    margin-bottom: 12px;
+    font-size: 0.78rem;
+    margin-bottom: 10px;
   }
   .mentor-stats-list {
     gap: 6px;
-    padding: 8px;
-    margin-bottom: 14px;
+    padding: 8px 6px;
+    margin-bottom: 12px;
   }
   .m-stat-val {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
   .m-stat-lbl {
-    font-size: 0.65rem;
+    font-size: 0.62rem;
   }
   .mentor-desc {
-    font-size: 0.8rem;
-    padding-left: 10px;
+    font-size: 0.78rem;
+    padding-left: 8px;
   }
   .mentor-action-row .btn {
     width: 100%;
-    font-size: 0.825rem;
-    min-height: 42px;
+    font-size: 0.8rem;
+    min-height: 40px;
   }
 
   /* Visit Card & Footer */
   .visit-card {
-    padding: 18px 12px;
-    gap: 16px;
+    padding: 16px 10px;
+    gap: 14px;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
   }
   .visit-info h3 {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
   }
   .visit-info p {
-    font-size: 0.8rem;
-    margin-bottom: 14px;
+    font-size: 0.78rem;
+    margin-bottom: 12px;
   }
   .visit-buttons-row .btn {
     width: 100%;
-    font-size: 0.825rem;
-    min-height: 42px;
+    font-size: 0.8rem;
+    min-height: 40px;
   }
   .v-detail-row {
     gap: 8px;
   }
   .v-icon {
-    width: 30px;
-    height: 30px;
-  }
-  .v-icon svg {
-    width: 16px;
-    height: 16px;
-  }
-  .v-title {
-    font-size: 0.7rem;
-  }
-  .v-text {
-    font-size: 0.8rem;
-  }
-  .v-text span {
-    font-size: 0.72rem;
-  }
-  .site-footer {
-    padding: 24px 0 40px;
-  }
-  .footer-logo {
+    width: 28px;
     height: 28px;
   }
+  .v-icon svg {
+    width: 15px;
+    height: 15px;
+  }
+  .v-title {
+    font-size: 0.68rem;
+  }
+  .v-text {
+    font-size: 0.78rem;
+  }
+  .v-text span {
+    font-size: 0.7rem;
+  }
+
+  .site-footer {
+    padding: 24px 0 calc(var(--dock-h) + 28px) !important;
+  }
+  .footer-logo {
+    height: 26px;
+  }
   .footer-text {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
   }
   .footer-links {
-    font-size: 0.78rem;
-    gap: 10px;
+    font-size: 0.75rem;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 
 /* Tablet & Up (>= 768px) */
 @media (min-width: 768px) {
-  .nav-links { display: flex; }
-  .mobile-toggle-btn { display: none; }
   .btn-call-outline .top-call-num { display: inline; }
 
   .hero-scaler { padding: 48px 0 72px; }
@@ -3448,6 +3705,10 @@ h4 { font-size: 1.05rem; font-weight: 600; }
 
 /* Large Desktop (>= 1024px) */
 @media (min-width: 1024px) {
+  .nav-links { display: flex; }
+  .mobile-toggle-btn { display: none; }
+  .btn-header-cta { display: inline-flex; }
+
   .hero-layout {
     grid-template-columns: 1.25fr 0.85fr;
     gap: 52px;
